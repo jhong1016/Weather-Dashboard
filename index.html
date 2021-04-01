@@ -23,11 +23,36 @@
         <div id="artist-credit"></div>
     </div>
 
-    <main class="main-content container">
-        <div class="content-wrapper row">
-            <section id="search-wrapper" class="search-wrap-style card col-lg-3">
+    <!-- Main container for webpage content -->
+    <main id="content" class="container">
+        <div class="row">
 
-            </section>
+            <!-- Left side content with city search box and appended cities -->
+            <div id="content-left" class="col-md-3">
+                <form>
+                    <label for="search-city">Search for a City:</label>
+                    <div class="form-row">
+                        <input id="search-city" class="form-control" name="city" value=" "></input>
+                        <!-- GoogleFonts magnifying glass -->
+                        <button id="search-button" class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
+                        <button id="delete-button" class="btn btn-danger" type="clear"><i class="fas fa-trash"></i></button>     
+                    </div>
+                </form>
+                <div id="search-error"></div>
+                <!-- list of prior searched cities -->
+                <ul id="city-results" class="list-group mt-4"></ul>
+                <!-- clear storage button -->
+                <a id="clear-storage" href="#"></a>    
+            </div>
+
+            <!-- Right side content showing current weather and five day forecast displays on search -->
+            <div id="content-right" class="col-md-9 pt-4">
+                <!-- Current weather displayed on top -->
+                <div id="current-weather" class="border rounded"></div>
+                <!-- Five day forecast below the current weather -->
+                <div id="five-day-forecast" class="mt-5"></div>
+            </div>
         </div>
     </main>
+
 </body>
