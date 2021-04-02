@@ -22,7 +22,12 @@ var searchWrapperEl = document.querySelector("#search-wrapper");
 var searchHistoryDiv = document.querySelector("#search-history");
 var cityCount = 1;
 
-
+// Function to fetch weather api - city is received from searchEvent function as searchValue 
+var weatherRequest = function (city) {
+    if (!city) {
+        return;
+    };
+    var weatherApi = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=311ad2f7f09a1df9a71b2b60e7af05cc";
 
 
 
