@@ -42,12 +42,22 @@
             </section>
 
             <!-- Right side content showing current weather and five day forecast displays on search -->
-            <div id="content-right" class="col-md-9 pt-4">
+            <section id="result-wrapper" class="results col-lg-9 card">
                 <!-- Current weather displayed on top -->
-                <div id="current-weather" class="border rounded"></div>
+                <div id="current-result" class="current-style card-body border-secondary">
+                    <!-- Append current weather here -->
+                </div>
                 <!-- Five day forecast below the current weather -->
-                <div id="five-day-forecast" class="mt-5"></div>
-            </div>
+                <section>
+                    <!-- Will need to make line 50 div a card, line 51 div a card-body and javascript created div a card-body -->
+                    <div id="forecast-wrapper" class="forecast-wrap card">
+                        <div id="forecast-result" class="forecast-class card-body border-secondary">
+                            <!-- Append 5 day forecasted weather here -->
+                        </div>
+                    </div>
+                </section>
+            </section>
+
         </div>
     </main>
 
