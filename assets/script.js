@@ -198,3 +198,36 @@ function storeHistory() {
     // Call function to remove previously searched weather
     removePrevious();
 };
+
+function loadHistory() {
+    if (localStorage.getItem("searchedCities")) {
+        var previousSearchCity = JSON.parse(localStorage.getItem("searchedCities"));
+        for (var i = 0; i < previousSearchCity.length; i++) {
+            createBtn(previousSearchCity[i]);
+        }
+    };
+
+    for (i = 0; i < document.getElementsByClassName("btn").length; i++) {
+        document.getElementsByClassName("btn")[i].addEventListener('click', function () {
+            var btnClicked = this.getAttribute("data-city");
+            weatherRequest(btnClicked);
+            console.log(btnClicked);
+            removePrevious();
+        });
+    }
+};
+
+// Remove previously searched weather info
+var removePrevious = function () {
+    cityNameEl.remove();
+    uvIndexContainer.remove();
+    forecastContainer.innerHTML = "";
+    currentTempEl.remove();
+    humidityEl.remove();
+    windEl.remove();
+};
+
+searchHandler.addEventListener("submit", searchEvent);
+deleteBtn.addEventListener("click", clearHistory);
+
+loadHistory();
