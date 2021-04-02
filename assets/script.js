@@ -121,3 +121,26 @@ var getFiveDayForecast = (event) => {
         $('#five-day-forecast').html(fiveDayForecastHTML);
     })
 }
+
+// Function to save the city to localStorage
+var saveCity = (newCity) => {
+    let cityExists = false;
+    // Check if City exists in local storage
+    for (let i = 0; i < localStorage.length; i++) {
+        if (localStorage["cities" + i] === newCity) {
+            cityExists = true;
+            break;
+        }
+    }
+    // Save to localStorage if city is new
+    if (cityExists === false) {
+        localStorage.setItem('cities' + localStorage.length, newCity);
+    }
+}
+
+var cities = [];
+
+function getCities(){
+  var getCity = localStorage.getItem("cities");
+  console.log(getCity);
+}
