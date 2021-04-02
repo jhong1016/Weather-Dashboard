@@ -29,7 +29,7 @@ var weatherRequest = function (city) {
     };
 
     var weatherApi = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=e2f667cde55a60ea38271c0834d19b9e";
-    
+
     // Fetch the response
     fetch(weatherApi)
 
@@ -217,7 +217,7 @@ function loadHistory() {
     }
 };
 
-// Remove previously searched weather info
+// Remove previously searched weather information
 var removePrevious = function () {
     cityNameEl.remove();
     uvIndexContainer.remove();
