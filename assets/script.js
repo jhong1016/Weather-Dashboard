@@ -153,7 +153,7 @@ var searchEvent = function (event) {
         weatherRequest(searchValue);
         createBtn(searchValue);
         storeHistory();
-        
+
         // Document.querySelector("#search-bar").value = ""
     } else {
 
@@ -171,4 +171,12 @@ function createBtn(city) {
     citySearch.setAttribute("type", "submit");
     citySearch.setAttribute("id", "city-" + city);
     searchHistoryDiv.prepend(citySearch);
+};
+
+function clearHistory() {
+    var searchedCities = JSON.parse(localStorage.getItem("searchedCities"));
+    for (var i = 0; i < searchedCities.length; i++) {
+        document.getElementById("city-" + searchedCities[i]).remove();
+    }
+    localStorage.clear("searchedCities");
 };
