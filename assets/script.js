@@ -179,3 +179,30 @@ var renderCities = () => {
         }
     }
 }
+
+// New city search button event listener
+$('#search-button').on("click", (event) => {
+    event.preventDefault();
+    currentCity = $('#search-city').val();
+    getCurrentConditions(event);
+    });
+    
+    // Old searched cities buttons event listener
+    $('#city-results').on("click", (event) => {
+        event.preventDefault();
+        $('#search-city').val(event.target.textContent);
+        currentCity=$('#search-city').val();
+        getCurrentConditions(event);
+    });
+    
+    // Clear old searched cities from localStorage event listener
+    $("#clear-storage").on("click", (event) => {
+        localStorage.clear();
+        renderCities(event);
+    });
+    
+    // Render the searched cities
+    renderCities();
+    
+    // Get the current conditions (which also calls the five day forecast)
+    getCurrentConditions();
