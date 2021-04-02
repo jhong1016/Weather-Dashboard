@@ -180,3 +180,21 @@ function clearHistory() {
     }
     localStorage.clear("searchedCities");
 };
+
+function storeHistory() {
+    // Variables to store storage keys for if statements
+    var userSearch = document.querySelector("#search-bar").value.trim().toUpperCase();
+    if (!userSearch) {
+        return;
+    };
+
+    var previousSearchCity = JSON.parse(localStorage.getItem("searchedCities")) || [];
+    previousSearchCity.push(userSearch);
+    localStorage.setItem("searchedCities", JSON.stringify(previousSearchCity));
+
+    // Clear search bar after clicking search button
+    document.querySelector("#search-bar").value = "";
+
+    // Call function to remove previously searched weather
+    removePrevious();
+};
