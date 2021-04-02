@@ -61,3 +61,25 @@ var weatherRequest = function (city) {
         // Create element to display wind speed
         windEl.innerHTML = "<h4 class='secondary-text'>Wind Speed:<span class='font-weight-bold'>" + " " + Math.round(response.wind.speed) + " MPH</span></h4>";
         cityDetailsDiv.appendChild(windEl);
+
+        // Fetch UV Index
+        return fetch("https://api.openweathermap.org/data/2.5/uvi?appid=c83c5006fffeb4aa44a34ffd6a27f135&lat=" + response.coord.lat + "&lon=" + response.coord.lon);
+    })
+
+    .then(function (uvFetch) {
+        return uvFetch.json();
+    })
+
+    .then(function (uvResponse) {
+        // Create div to contain UV index
+        uvIndexContainer.setAttribute("id", "uv-value");
+        uvIndexContainer.classList = "secondary-text uv-class";
+        cityDetailsDiv.appendChild(uvIndexContainer);
+
+        // Set uvValue
+        var uvValue = uvResponse.value;
+        uvIndexEl.innerHTML = "UV Index: ";
+        uvValueDisplay.setAttribute("id", "uv-index");
+        uvValueDisplay.innerHTML = uvValue;
+        uvIndexContainer.appendChild(uvIndexEl);
+        uvIndexContainer.appendChild(uvValueDisplay);
