@@ -1,15 +1,30 @@
-// Set global variables, including Open Weather Maps API Key
-var APIkey = "311ad2f7f09a1df9a71b2b60e7af05cc";
-var currentCity = "";
-var lastCity = "";
+// Set global variables
+var date = moment().format("ll");
+var searchHandler = document.querySelector("#search-form");
+var searchBar = document.querySelector("#search-bar");
+var responseContainer = document.querySelector("#current-result");
+var deleteBtn = document.getElementById("dlt-btn");
 
-// Error handler for fetch
-var handleErrors = (response) => {
-    if (!response.ok) {
-        throw Error(response.statusText);
-    }
-    return response;
-}
+// Current temperature variables
+const cityTempDiv = document.createElement('div');
+const cityDetailsDiv = document.createElement('div');
+var cityNameEl = document.createElement("div");
+var currentTempEl = document.createElement("div");
+var humidityEl = document.createElement("div");
+var windEl = document.createElement("div");
+var uvIndexContainer = document.createElement("div");
+var uvIndexEl = document.createElement("h4");
+var uvValueDisplay = document.createElement("div");
+
+// 5 day forecast variables
+var forecastContainer = document.querySelector("#forecast-result");
+var searchWrapperEl = document.querySelector("#search-wrapper");
+var searchHistoryDiv = document.querySelector("#search-history");
+var cityCount = 1;
+
+
+
+
 
 // Function to get and display the current conditions on Open Weather Maps
 var getCurrentConditions = (event) => {
@@ -173,7 +188,7 @@ var renderCities = () => {
         }
         // Add a "clear" button to page if there is a cities list
         if (localStorage.length>0){
-            $('#clear-storage').html($('<a id="clear-storage" href="#">clear</a>'));
+            $('#clear-storage').html($('<a id="clear-storage" href="#">Clear</a>'));
         } else {
             $('#clear-storage').html('');
         }
