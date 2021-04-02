@@ -153,10 +153,22 @@ var searchEvent = function (event) {
         weatherRequest(searchValue);
         createBtn(searchValue);
         storeHistory();
+        
         // Document.querySelector("#search-bar").value = ""
     } else {
 
         // If search is empty, throw an alert
         alert("Please enter a city to see its current weather.");
     };
+};
+
+function createBtn(city) {
+    // Create buttons
+    var citySearch = document.createElement("button");
+    citySearch.textContent = city;
+    citySearch.classList = "btn btn-info btn-block";
+    citySearch.setAttribute("data-city", city);
+    citySearch.setAttribute("type", "submit");
+    citySearch.setAttribute("id", "city-" + city);
+    searchHistoryDiv.prepend(citySearch);
 };
