@@ -26,8 +26,13 @@
     width: 80%;
 }
 
-/* GoogleFonts magnifying glass icon */
+/* FontAwesome magnifying glass icon */
 #search-button-icon {
+    width: 15px;
+    display: inline-block;
+}
+
+#delete-button-icon {
     width: 15px;
     display: inline-block;
 }
@@ -80,6 +85,10 @@
     }
 
     #search-button {
+        width: 100%;
+    }
+
+    #delete-button {
         width: 100%;
     }
 }

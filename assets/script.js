@@ -7,8 +7,8 @@ function currentWeather(){
     navigator.geolocation.getCurrentPosition(function (position){
         longitude = position.coords.longitude;
         latitude = position.coords.latitude;
-        var queryURL = "https://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude + "&appid=" +  APIkey;
-    $.ajax ({
+        var queryURL = "https://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude + "&appid=" + APIkey;
+    $.ajax({
         url: queryURL,
         method: "GET"
     })
@@ -39,7 +39,7 @@ var handleErrors = (response) => {
 var getCurrentConditions = (event) => {
     // Obtain city name from the search box
     let city = $('#search-city').val();
-    currentCity= $('#search-city').val();
+    currentCity = $('#search-city').val();
     // Set the queryURL to fetch from API using weather search - added units=imperial to fix
     let queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial" + "&APPID=" + APIkey;
     fetch(queryURL)
@@ -52,7 +52,7 @@ var getCurrentConditions = (event) => {
         saveCity(city);
         $('#search-error').text("");
         // Create icon for the current weather using Open Weather Maps
-        let currentWeatherIcon="https://openweathermap.org/img/w/" + response.weather[0].icon + ".png";
+        let currentWeatherIcon = "api.openweathermap.org/img/w/" + response.weather[0].icon + ".png";
         // Offset UTC timezone - using moment.js
         let currentTimeUTC = response.dt;
         let currentTimeZoneOffset = response.timezone;
@@ -78,7 +78,7 @@ var getCurrentConditions = (event) => {
         // Get the latitude and longitude for the UV search from Open Weather Maps API
         let latitude = response.coord.lat;
         let longitude = response.coord.lon;
-        let uvQueryURL = "api.openweathermap.org/data/2.5/uvi?lat=" + latitude + "&lon=" + longitude + "&APPID=" + owmAPI;
+        let uvQueryURL = "https://api.openweathermap.org/data/2.5/uvi?lat=" + latitude + "&lon=" + longitude + "&APPID=" + owmAPI;
         // API solution for Cross-origin resource sharing (CORS)
         uvQueryURL = "https://cors-anywhere.herokuapp.com/" + uvQueryURL;
         // Fetch the UV information and build the color display for the UV index
