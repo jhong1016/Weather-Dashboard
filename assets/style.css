@@ -1,101 +1,31 @@
 /* Styles for website */
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: black;
+    --secondary: slategray;
+    --container: lightgray;
+    --background: ghostwhite;
+    --heading-font: "Kumbh Sans", sans-serif;
+    --text-font: "Montserrat", sans-serif;
+}
+
+.primary-text {
+    font-family: var(--heading-font)
+}
+
+.secondary-text {
+    font-family: var(--text-font);
+}
 
 /* Header styling */
-#header {
-    background-size: cover;
-    background-position-y: 40%;
-    color: white;
-    background-color: rgb(9, 60, 119);
-    position: relative !important;
-}
-
-/* h1 style for city name */
-#header h1 {
-    font-size: 350%;
+.header {
+    display: flex;
+    background-color: var(--secondary);
+    justify-content: center;
     text-align: center;
-    text-transform: uppercase;
-    font-weight: bold;
-    -webkit-background-clip: text;
-    -moz-background-clip: text;
-    background-clip: text;
-    text-shadow: 0px 1px 1px rgba(224, 215, 215, 0.89);
+    margin-bottom: 25px;
 }
 
-/* City search width */
-#search-city {
-    width: 80%;
-}
-
-/* FontAwesome magnifying glass icon */
-#search-button-icon {
-    width: 12px;
-    display: inline-block;
-}
-
-#delete-button-icon {
-    width: 12px;
-    display: inline-block;
-}
-
-/* Current weather padding */
-#current-weather {
-    padding-left: 15px;
-}
-
-/* Clear storage below list of cities */
-#clear-storage {
-    color: grey;
-    text-decoration: none;
-    font-size: .75em;
-    margin: .5em 0em 0em .5em;
-}
-
-/* Weather card styling */
-.weather-card {
-    width: 9rem;
-    background-color: rgb(45, 122, 211);
-    color: white;
-    text-align: center;
-}
-
-/* UV coloring scheme for UV display */
-.uv-favorable {
-    background-color: green;
-    border-radius: 5px;
-    color: white;
-}
-
-.uv-moderate {
-    background-color: orange;
-    border-radius: 5px;
-    color: white;
-}
-
-.uv-severe {
-    background-color: red;
-    border-radius: 5px;
-    color: white;
-}
-
-/* Media queries */
-@media only screen and (max-width: 992px) {
-
-    #search-city {
-        width: 100%;
-    }
-
-    #search-button {
-        width: 100%;
-    }
-
-    #delete-button {
-        width: 100%;
-    }
-}
-
-@media only screen and (max-width: 575px) {
-
-    #fiveDayForecastUl {
-        justify-content: center;
-    }
-}
