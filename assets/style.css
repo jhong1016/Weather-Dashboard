@@ -21,19 +21,19 @@
     text-shadow: 0px 1px 1px rgba(224, 215, 215, 0.89);
 }
 
-/* City Search width */
+/* City search width */
 #search-city {
     width: 80%;
 }
 
 /* FontAwesome magnifying glass icon */
 #search-button-icon {
-    width: 15px;
+    width: 12px;
     display: inline-block;
 }
 
 #delete-button-icon {
-    width: 15px;
+    width: 12px;
     display: inline-block;
 }
 
