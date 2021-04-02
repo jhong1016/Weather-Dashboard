@@ -27,7 +27,7 @@ var weatherRequest = function (city) {
     if (!city) {
         return;
     };
-    
+
     var weatherApi = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=e2f667cde55a60ea38271c0834d19b9e";
     
     // Fetch the response
@@ -140,4 +140,23 @@ var weatherRequest = function (city) {
         document.querySelector("#search-bar").value = "";
         return;
     });
+};
+
+var searchEvent = function (event) {
+    event.preventDefault();
+
+    // Clicking search button submits value and calls weatherRequest function
+    var searchValue = searchBar.value.trim().toUpperCase();
+
+    if (searchValue) {
+        // Correct way to implement is to catch any errors happening from weatherRequest and skip createBtn/storeHistory
+        weatherRequest(searchValue);
+        createBtn(searchValue);
+        storeHistory();
+        // Document.querySelector("#search-bar").value = ""
+    } else {
+
+        // If search is empty, throw an alert
+        alert("Please enter a city to see its current weather.");
+    };
 };
