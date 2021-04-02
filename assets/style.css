@@ -124,24 +124,42 @@
 }
 
 /* Media queries */
-@media only screen and (max-width: 992px) {
-
-    #search-city {
-        width: 100%;
+@media screen and (max-width: 1199px) {
+    .heading {
+        font-size: 2rem;
     }
 
-    #search-button {
-        width: 100%;
+    .secondary-text {
+        font-size: 1.5rem;
     }
 
-    #delete-button {
-        width: 100%;
+    .forecast-class {
+        flex-direction: column;
+    }
+
+    .forecast-card {
+        margin-bottom: 2px;
+        text-align: center;
+    }
+
+    .forecast-card h5 {
+        font-size: 1.50rem;
+    } 
+
+    .forecast-card h6 {
+        font-size: 1.25rem;
     }
 }
 
-@media only screen and (max-width: 575px) {
+@media screen and (max-width: 991px) {
+    .search-wrap-style {
+        margin-bottom: 15px;
+    }
+}
 
-    #fiveDayForecastUl {
-        justify-content: center;
+@media screen and (max-width: 768px) {
+    .content-wrapper {
+        flex-direction: column;
+        align-items: center;
     }
 }
