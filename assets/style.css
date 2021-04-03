@@ -169,7 +169,7 @@ input {
 
 /* Media queries */
 @media screen and (max-width: 1199px) {
-    .heading {
+    .header {
         font-size: 2rem;
     }
 
