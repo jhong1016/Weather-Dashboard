@@ -25,9 +25,14 @@ body {
     z-index: 10; 
 }
 
-h1,h2,h3 {
+h1,h2,h3,h4 {
     margin: 0;  
     font: bold;
+}
+
+h3 {
+    font-size: medium;
+    color:rgb(55, 77, 110)
 }
 
 /* City search panel */
@@ -172,50 +177,11 @@ input {
 }
 
 /* Media queries */
-@media screen and (max-width: 1199px) {
-    .header {
-        font-size: 2rem;
-    }
-
-    .secondary-text {
-        font-size: 1.5rem;
-    }
-
-    .forecast-class {
-        flex-direction: column;
-    }
-
-    .forecast-card {
-        margin-bottom: 2px;
-        text-align: center;
-    }
-
-    .forecast-card h5 {
-        font-size: 1.50rem;
-    } 
-
-    .forecast-card h6 {
-        font-size: 1.25rem;
-    }
-}
-
-@media screen and (max-width: 991px) {
-    .search-wrap-style {
-        margin-bottom: 15px;
-    }
-}
-
-@media screen and (max-width: 768px) {
-    .content-wrapper {
-        flex-direction: column;
-        align-items: center;
-    }
-}
-
 @media screen and (max-width: 550px) {
     #searchPanel {
         width: 230px;
     }
+    
     #mainContent {
         margin-left: 230px;
     }
