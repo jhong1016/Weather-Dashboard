@@ -12,7 +12,7 @@ When the user types in a city name in the input field, then hits enter or clicks
 
 * It specifically grabs the temperature, humidity, wind speed, and UV index. 
 * It fetches a 5 day forecast for the searched city. 
-* It saves the previous city searches and when clicked on, weather results are retrieved.
+* It saves the previous city searches and when clicked on, weather results are again retrievable.
 
 There is also a button to clear the search history.
 
