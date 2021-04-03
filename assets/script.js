@@ -11,8 +11,8 @@ var storedSearches = getStoredSearches();
 // Variable used to store and determine if the city needs to be added to the search history
 var addedCity = newCity();
 // Unit variables for future development of switching between unit systems.
-const metricUnits = {deg:"C", speed:"KPH"};
-const impUnits = {deg:"F", speed:"MPH"};
+const metricUnits = {deg: "C", speed: "KPH"};
+const impUnits = {deg: "F", speed: "MPH"};
 var units = metricUnits;
 
 function init(){
@@ -29,7 +29,7 @@ function init(){
     }
 
     // Function to fetch weather API key - city is received from searchEvent function as searchValue 
-    searchInput.on("keyup", function (event){
+    searchInput.on("keyup", function(event){
 
         // "13" represents the enter key
         if (event.key === "Enter"){
@@ -50,7 +50,7 @@ function buildSearchHistory(){
         storedSearches.forEach(element => {
             searchesDiv.append(
                 $("<button>")
-                    .text(correctCase(element.city) +", "+element.country.toUpperCase())
+                    .text(correctCase(element.city) + ", " + element.country.toUpperCase())
                     .addClass("btn btnCitySearch")
                     .on("click", function (){                        
                         getWeather(element);
@@ -78,11 +78,11 @@ function getWeather(city){
     let queryURLForecast = "";
     
     if (city.country == null){
-        queryURLCurrent = "https://api.openweathermap.org/data/2.5/weather?q="+city.city+"&units=metric&appid="+APIKey;
-        queryURLForecast = "https://api.openweathermap.org/data/2.5/forecast?q="+city.city+"&units=metric&appid="+APIKey;
+        queryURLCurrent = "https://api.openweathermap.org/data/2.5/weather?q=" + city.city + "&units=metric&appid=" + APIKey;
+        queryURLForecast = "https://api.openweathermap.org/data/2.5/forecast?q=" + city.city + "&units=metric&appid=" + APIKey;
     } else {        
-        queryURLCurrent = "https://api.openweathermap.org/data/2.5/weather?q="+city.city+","+city.country+"&units=metric&appid="+APIKey;
-        queryURLForecast = "https:////api.openweathermap.org/data/2.5/forecast?q="+city.city+","+city.country+"&units=metric&appid="+APIKey;
+        queryURLCurrent = "https://api.openweathermap.org/data/2.5/weather?q=" + city.city + ", " + city.country + "&units=metric&appid=" + APIKey;
+        queryURLForecast = "https:////api.openweathermap.org/data/2.5/forecast?q=" + city.city + ", " + city.country + "&units=metric&appid=" + APIKey;
     }
         
     performAPIGETCall(queryURLCurrent, buildCurrentWeather);
@@ -92,25 +92,24 @@ function getWeather(city){
 // Console.log(data);
 function buildCurrentWeather(data){
     if (data != null) {
-        console.log(units,metricUnits,data.wind.speed);
+        console.log(units, metricUnits, data.wind.speed);
         currentWeatherDiv.empty();
         currentWeatherDiv.append(
-            $("<h3>").text(correctCase(data.name)+", "
-                +data.sys.country.toUpperCase())
-            ,$("<h4>").text(moment.unix(data.dt).format("dddd, MMM Do YYYY"))
-            .append($("<img>").attr("src", "https://openweathermap.org/img/wn/"+data.weather[0].icon+"@2x.png")
+            $("<h3>").text(correctCase(data.name) + ", " + data.sys.country.toUpperCase())
+            ,$("<h4>").text(moment.unix(data.dt).format("dddd, Do MMMM YYYY"))
+            .append($("<img>").attr("src", "https://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png")
                 .addClass("currentWeatherImg")
                 .attr("data-toggle", "tooltip")
                 .attr("data-placement", "right")                                                      
                 .attr("title", data.weather[0].description)
                 .tooltip())
-            ,$("<p>").text("Temperature: " + Math.round(data.main.temp) + "°"+units.deg)
-            ,$("<p>").text("Humidity: " + data.main.humidity+"%")
-            ,$("<p>").text("Wind Speed: " +(Math.round((units === metricUnits)?(data.wind.speed*3.6):data.wind.speed))+" "+units.speed)
+            ,$("<p>").text("Temperature: " + Math.round(data.main.temp) + "°" + units.deg)
+            ,$("<p>").text("Humidity: " + data.main.humidity + "%")
+            ,$("<p>").text("Wind Speed: " + (Math.round((units === metricUnits)?(data.wind.speed*3.6):data.wind.speed)) + " " + units.speed)
             ,$("<p>").text("UV Index: ").append($("<div>").attr("id", "UVIndex"))
         );
 
-    let UVqueryURL = "https://api.openweathermap.org/data/2.5/uvi?appid="+APIKey+"&lat="+data.coord.lat+"&lon="+data.coord.lon;
+    let UVqueryURL = "https://api.openweathermap.org/data/2.5/uvi?appid=" + APIKey + "&lat=" + data.coord.lat + "&lon=" + data.coord.lon;
         
     performAPIGETCall(UVqueryURL,buildUV);
 
@@ -167,7 +166,7 @@ function buildUV(data){
              .css("borderColor", borderColor);
         
         if(textColor != null){
-            UVDiv.css("color",textColor);
+            UVDiv.css("color", textColor);
         }
         UVDiv.text(UVIndex);
         } else {
@@ -181,9 +180,9 @@ function buildForecastWeather(data){
         
         forecastDiv.empty();
         
-        let dayCardContainer = $("<div>").attr("id","dayCardContainer").addClass("row")
+        let dayCardContainer = $("<div>").attr("id", "dayCardContainer").addClass("row")
 
-        forecastDiv.append($("<h3>").text("5-Day Forecast:"),dayCardContainer);        
+        forecastDiv.append($("<h3>").text("5-Day Forecast:"), dayCardContainer);        
         dailyData = parseDailyData(data);        
 
         dailyData.forEach(element => {
@@ -195,102 +194,93 @@ function buildForecastWeather(data){
     }
 }
 
+// For now arbitrarily starts at the index 5/40 of returned results as it is in 3 hour intervals
+function parseDailyData(data){
 
+    let dailyData = [];
+    // Increments by 8 due to 8 * 3 hours = 1 day
+    for(var i = 5; i < data.list.length; i += 8){
+        
+        let dataList = data.list[i];
+
+        dailyData.push(newDay(dataList.dt,
+                            dataList.weather[0].icon,
+                            dataList.weather[0].description,
+                            dataList.main.temp,
+                            dataList.main.humidity));
+    }
+    return dailyData;
+}
+
+function buildForecastCard(day){
+    let dayCard = $("<div>").attr("class", "dayCard col-12 col-md-5 col-lg-2");
+
+        dayCard.append(
+            $("<label>").text(getDayOfWeek(day.date)),
+            $("<label>").text(moment.unix(day.date).format("Do MMMM YYYY")),                        
+            $("<img>").attr("src","https://openweathermap.org/img/wn/" + day.icon + ".png")
+                        .attr("data-toggle", "tooltip")
+                        .attr("data-placement", "right")
+                        .attr("title", day.description)
+                        .tooltip(),
+            $("<p>").text("Temperature: " + Math.round(day.temp) + "°" + units.deg),
+            $("<p>").text("Humidity: " + day.humidity + "%")
+        );
+
+    return dayCard;
+}
+
+function addNewSearch(city){
+    // Console.log(city, storedSearches)
+    if (storedSearches == null){
+        storedSearches = [];
+    }
+    // Put the newest city at the top when searched
+    storedSearches.unshift(city);
     
-    .catch(function (error) {
-        removePrevious();
-        alert(error.message);
-        document.querySelector("#search-bar").value = "";
-        return;
-    });
-};
+    localStorage.setItem(lsKey,JSON.stringify(storedSearches));
 
-var searchEvent = function (event) {
-    event.preventDefault();
+    buildSearchHistory();
+}
 
-    // Clicking search button submits value and calls weatherRequest function
-    var searchValue = searchBar.value.trim().toUpperCase();
+// Clear search bar after clicking search button
+function clearSearches(){
 
-    if (searchValue) {
-        // Correct way to implement is to catch any errors happening from weatherRequest and skip createBtn/storeHistory
-        weatherRequest(searchValue);
-        createBtn(searchValue);
-        storeHistory();
+    localStorage.removeItem(lsKey);
+    searchesDiv.empty();
+    storedSearches = null;
+}
 
-        // Document.querySelector("#search-bar").value = ""
-    } else {
+// Get started
+init();
 
-        // If search is empty, throw an alert
-        alert("Please enter a city to see its current weather.");
-    };
-};
-
-function createBtn(city) {
-    // Create buttons
-    var citySearch = document.createElement("button");
-    citySearch.textContent = city;
-    citySearch.classList = "btn btn-info btn-block";
-    citySearch.setAttribute("data-city", city);
-    citySearch.setAttribute("type", "submit");
-    citySearch.setAttribute("id", "city-" + city);
-    searchHistoryDiv.prepend(citySearch);
-};
-
-function clearHistory() {
-    var searchedCities = JSON.parse(localStorage.getItem("searchedCities"));
-    for (var i = 0; i < searchedCities.length; i++) {
-        document.getElementById("city-" + searchedCities[i]).remove();
-    }
-    localStorage.clear("searchedCities");
-};
-
-function storeHistory() {
-    // Variables to store storage keys for if statements
-    var userSearch = document.querySelector("#search-bar").value.trim().toUpperCase();
-    if (!userSearch) {
-        return;
-    };
-
-    var previousSearchCity = JSON.parse(localStorage.getItem("searchedCities")) || [];
-    previousSearchCity.push(userSearch);
-    localStorage.setItem("searchedCities", JSON.stringify(previousSearchCity));
-
-    // Clear search bar after clicking search button
-    document.querySelector("#search-bar").value = "";
-
-    // Call function to remove previously searched weather
-    removePrevious();
-};
-
-function loadHistory() {
-    if (localStorage.getItem("searchedCities")) {
-        var previousSearchCity = JSON.parse(localStorage.getItem("searchedCities"));
-        for (var i = 0; i < previousSearchCity.length; i++) {
-            createBtn(previousSearchCity[i]);
-        }
-    };
-
-    for (i = 0; i < document.getElementsByClassName("btn").length; i++) {
-        document.getElementsByClassName("btn")[i].addEventListener('click', function () {
-            var btnClicked = this.getAttribute("data-city");
-            weatherRequest(btnClicked);
-            console.log(btnClicked);
-            removePrevious();
-        });
-    }
-};
-
-// Remove previously searched weather information
-var removePrevious = function () {
-    cityNameEl.remove();
-    uvIndexContainer.remove();
-    forecastContainer.innerHTML = "";
-    currentTempEl.remove();
-    humidityEl.remove();
-    windEl.remove();
-};
-
-searchHandler.addEventListener("submit", searchEvent);
-deleteBtn.addEventListener("click", clearHistory);
-
-loadHistory();
+// Helper functions
+function getDayOfWeek(date){
+    return moment.unix(parseInt(date)).format('dddd');
+ }
+ 
+ function correctCase(str){
+     return str.toLowerCase().replace(/\b\w/g, l => l.toUpperCase());
+ }
+ 
+ function getStoredSearches(){
+     return JSON.parse(localStorage.getItem(lsKey));
+ }
+ 
+ function newCity(city, country){
+     return {city: city, country: country};
+ }
+ 
+ function performAPIGETCall(queryURL, callbackFunction){    
+     $.ajax({url: queryURL, method: "GET"}).then(function(response){
+         callbackFunction(response);
+     });   
+ }
+ 
+ function testFunction(mFunction, ...args){   
+     console.log(mFunction(...args));
+  }
+ 
+ function newDay(date, icon, description, temp, humidity){
+     return {date: date, icon: icon, description: description, temp: temp, humidity: humidity};
+ }
