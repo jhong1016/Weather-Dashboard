@@ -1,34 +1,41 @@
 // Set global variables
-var date = moment().format("ll");
-var searchHandler = document.querySelector("#search-form");
-var searchBar = document.querySelector("#search-bar");
-var responseContainer = document.querySelector("#current-result");
-var deleteBtn = document.getElementById("dlt-btn");
+const APIKey = "4d83e60df2919987d44e561a0cc747ee";
+const lsKey = "weatherSearches"
+const searchesDiv = $("#searches");
+const searchInput = $("#searchInput");
+const searchButton = $("#searchBtn");
+const currentWeatherDiv = $("#currentWeather");
+const forecastDiv = $("#forecast");
+const clearBtn = $("#clear");
+var storedSearches = getStoredSearches();
+// Variable used to store and determine if the city needs to be added to the search history
+var addedCity = newCity();
+// Unit variables for future development of switching between unit systems.
+const metricUnits = {deg:"C", speed:"KPH"};
+const impUnits = {deg:"F", speed:"MPH"};
+var units = metricUnits;
 
-// Current temperature variables
-const cityTempDiv = document.createElement('div');
-const cityDetailsDiv = document.createElement('div');
-var cityNameEl = document.createElement("div");
-var currentTempEl = document.createElement("div");
-var humidityEl = document.createElement("div");
-var windEl = document.createElement("div");
-var uvIndexContainer = document.createElement("div");
-var uvIndexEl = document.createElement("h4");
-var uvValueDisplay = document.createElement("div");
+function init(){
 
-// 5 day forecast variables
-var forecastContainer = document.querySelector("#forecast-result");
-var searchWrapperEl = document.querySelector("#search-wrapper");
-var searchHistoryDiv = document.querySelector("#search-history");
-var cityCount = 1;
+    // Enable tooltips
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+    
+    buildSearchHistory();
 
-// Function to fetch weather API key - city is received from searchEvent function as searchValue 
-var weatherRequest = function (city) {
-    if (!city) {
-        return;
-    };
+    if(storedSearches != null){
+        getWeather(storedSearches[0]);
+    }
 
-    var weatherApi = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=e2f667cde55a60ea38271c0834d19b9e";
+    // Function to fetch weather API key - city is received from searchEvent function as searchValue 
+    searchInput.on("keyup", function (event) {
+
+        // "13" represents the enter key
+        if (event.key === "Enter") {
+            searchButtonClicked();
+        }
+    });
 
     // Fetch the response
     fetch(weatherApi)
