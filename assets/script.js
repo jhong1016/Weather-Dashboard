@@ -1,5 +1,5 @@
 // Set global variables
-const APIKey = "4d83e60df2919987d44e561a0cc747ee";
+const APIKey = "e2f667cde55a60ea38271c0834d19b9e";
 const lsKey = "weatherSearches"
 const searchesDiv = $("#searches");
 const searchInput = $("#searchInput");
@@ -18,67 +18,84 @@ var units = metricUnits;
 function init(){
 
     // Enable tooltips
-    $(function () {
+    $(function (){
         $('[data-toggle="tooltip"]').tooltip()
     });
     
     buildSearchHistory();
 
-    if(storedSearches != null){
+    if (storedSearches != null){
         getWeather(storedSearches[0]);
     }
 
     // Function to fetch weather API key - city is received from searchEvent function as searchValue 
-    searchInput.on("keyup", function (event) {
+    searchInput.on("keyup", function (event){
 
         // "13" represents the enter key
-        if (event.key === "Enter") {
+        if (event.key === "Enter"){
             searchButtonClicked();
         }
     });
 
-    // Fetch the response
-    fetch(weatherApi)
+    searchButton.on("click", searchButtonClicked);
+    clearBtn.on("click",clearSearches);    
+}
 
-    .then(function (response) {
-        if (!response || !response.ok) {
-            throw new Error('There was an error!');
-        };
-        return response.json();
-    })
+// Search button function 
+function buildSearchHistory(){
+    
+    searchesDiv.empty();
+    
+    if (storedSearches != null){
+        storedSearches.forEach(element => {
+            searchesDiv.append(
+                $("<button>")
+                    .text(correctCase(element.city) +", "+element.country.toUpperCase())
+                    .addClass("btn btnCitySearch")
+                    .on("click", function (){                        
+                        getWeather(element);
+                    })
+                );
+            });
+        }
+    }
 
-    .then(function (response) {
-        // Div to contain city name and current temperature
-        cityTempDiv.classList = 'temp-div';
-        responseContainer.appendChild(cityTempDiv);
+// Clicking search button submits value 
+function searchButtonClicked(){
+    
+        let cityVal = searchInput.val().trim();
+        let city = newCity(cityVal, null);       
+        getWeather(city);
 
-        // Div to contain other details - humidity, wind speed, UV index
-        cityDetailsDiv.classList = 'detail-div';
-        responseContainer.appendChild(cityDetailsDiv);
+        // Clear the value once the search is activated
+        searchInput.val("");        
+    }
 
-        // Create element for the city name response   
-        cityNameEl.innerHTML = "<h2 class='secondary-text'>Current Weather for <span class='font-weight-bold'>" + response.name + "</span></h2><br><img class='icon' src='http://openweathermap.org/img/w/" + response.weather[0].icon + ".png' alt=Current weather icon/><br><br><h2 class='font-weight-bold secondary-text'>" + date + "</h2><br>";
-        cityTempDiv.appendChild(cityNameEl);
+// Fetch the weather for searched city
+function getWeather(city){
+    addedCity = city; 
+    let queryURLCurrent = "";
+    let queryURLForecast = "";
+    
+    if (city.country == null){
+        queryURLCurrent = "https://api.openweathermap.org/data/2.5/weather?q="+city.city+"&units=metric&appid="+APIKey;
+        queryURLForecast = "https://api.openweathermap.org/data/2.5/forecast?q="+city.city+"&units=metric&appid="+APIKey;
+    } else {        
+        queryURLCurrent = "https://api.openweathermap.org/data/2.5/weather?q="+city.city+","+city.country+"&units=metric&appid="+APIKey;
+        queryURLForecast = "https:////api.openweathermap.org/data/2.5/forecast?q="+city.city+","+city.country+"&units=metric&appid="+APIKey;
+    }
+        
+    performAPIGETCall(queryURLCurrent, buildCurrentWeather);
+    performAPIGETCall(queryURLForecast, buildForecastWeather);    
+}
 
-        // Create element to display the current temperature
-        currentTempEl.innerHTML = "<h3 class='secondary-text'>Current Temperature:<span class='font-weight-bold'>" + " " + Math.round(response.main.temp) + "&#176F</span></h3><br>";
-        cityTempDiv.appendChild(currentTempEl);
 
-        // Create element to display humidity
-        humidityEl.innerHTML = "<h4 class='secondary-text'>Humidity:<span class='font-weight-bold'>" + " " + response.main.humidity + "%</span></h4>";
-        cityDetailsDiv.appendChild(humidityEl);
 
-        // Create element to display wind speed
-        windEl.innerHTML = "<h4 class='secondary-text'>Wind Speed:<span class='font-weight-bold'>" + " " + Math.round(response.wind.speed) + " MPH</span></h4>";
-        cityDetailsDiv.appendChild(windEl);
 
-        // Fetch UV Index
-        return fetch("https://api.openweathermap.org/data/2.5/uvi?appid=c83c5006fffeb4aa44a34ffd6a27f135&lat=" + response.coord.lat + "&lon=" + response.coord.lon);
-    })
 
-    .then(function (uvFetch) {
-        return uvFetch.json();
-    })
+
+
+
 
     .then(function (uvResponse) {
         // Create div to contain UV index
