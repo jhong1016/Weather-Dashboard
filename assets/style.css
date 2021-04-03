@@ -27,6 +27,7 @@ body {
 
 h1,h2,h3 {
     margin: 0;  
+    font: bold;
 }
 
 /* City search panel */
@@ -36,6 +37,7 @@ h1,h2,h3 {
     align-content: stretch;
     flex-wrap: wrap-reverse;
 }
+
 #searchPanel {    
     padding: 10px 10px 0 10px;
     width: 320px;
@@ -81,10 +83,11 @@ input {
     width: 100%;
     display: block;
     font-size: 1.1em;
-    border: 1px solid #777777;
+    border: 1px solid #918d8d;
     border-radius: 0;
     text-align: left;
-    background-color: white;
+    background-color: rgb(214, 232, 240);
+    color: rgb(55, 77, 110)
 }
 
 #searchInput {
@@ -92,17 +95,15 @@ input {
     border-radius: 4px;    
     border: 1px solid;
 }
-#searches {
-    /*overflow-y: scroll;*/
-}
 
 .searchBtn {
     margin-left: 5px;
-    background-color: rgb(50, 99, 173);
+    background-color: rgb(41, 85, 150);
     padding: 5px 10px;
     border-radius: 5px;
     color: white;
 }
+
 .clearBtn {
     margin-left: 5px;
     background-color: rgb(189, 63, 63);
@@ -117,12 +118,14 @@ input {
     margin-right: 0;
     padding-right: 0;
     top: 78px;
+    color: black;
+    background-color: rgb(219, 223, 231);
 }
 
 #currentWeather {
     margin: 10px 0 10px 10px;
     padding: 20px 0 20px 20px;
-    border: 1px solid #777777;
+    border: 1px solid #747070;
     border-right: unset;
     border-radius: 5px 0 0 5px;
 }
@@ -141,11 +144,12 @@ input {
     flex-wrap: wrap;
     padding-right: 15px;
     align-content: stretch;
+    color: black;
 }
 
 .dayCard {
     padding: 10px;
-    background-color: lightblue;
+    background-color: rgb(179, 216, 230);
     margin: 10px;
     border-radius: 5px;
 }
