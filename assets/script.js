@@ -89,74 +89,113 @@ function getWeather(city){
     performAPIGETCall(queryURLForecast, buildForecastWeather);    
 }
 
+// Console.log(data);
+function buildCurrentWeather(data){
+    if (data != null) {
+        console.log(units,metricUnits,data.wind.speed);
+        currentWeatherDiv.empty();
+        currentWeatherDiv.append(
+            $("<h3>").text(correctCase(data.name)+", "
+                +data.sys.country.toUpperCase())
+            ,$("<h4>").text(moment.unix(data.dt).format("dddd, MMM Do YYYY"))
+            .append($("<img>").attr("src", "https://openweathermap.org/img/wn/"+data.weather[0].icon+"@2x.png")
+                .addClass("currentWeatherImg")
+                .attr("data-toggle", "tooltip")
+                .attr("data-placement", "right")                                                      
+                .attr("title", data.weather[0].description)
+                .tooltip())
+            ,$("<p>").text("Temperature: " + Math.round(data.main.temp) + "°"+units.deg)
+            ,$("<p>").text("Humidity: " + data.main.humidity+"%")
+            ,$("<p>").text("Wind Speed: " +(Math.round((units === metricUnits)?(data.wind.speed*3.6):data.wind.speed))+" "+units.speed)
+            ,$("<p>").text("UV Index: ").append($("<div>").attr("id", "UVIndex"))
+        );
 
+    let UVqueryURL = "https://api.openweathermap.org/data/2.5/uvi?appid="+APIKey+"&lat="+data.coord.lat+"&lon="+data.coord.lon;
+        
+    performAPIGETCall(UVqueryURL,buildUV);
 
+    if (addedCity.country == null){
+        addedCity.country = data.sys.country;
+        addedCity.city = data.name;
+        addNewSearch(addedCity);
+        addedCity = null;
+    }
+    } else {
+        alert("There was an fetching current weather data. Please try again.");
+    }            
+}
 
+// Create div to contain UV index
+function buildUV(data){
+    if (data != null){
 
-
-
-
-
-    .then(function (uvResponse) {
-        // Create div to contain UV index
-        uvIndexContainer.setAttribute("id", "uv-value");
-        uvIndexContainer.classList = "secondary-text uv-class";
-        cityDetailsDiv.appendChild(uvIndexContainer);
-
-        // Set UV Value
-        var uvValue = uvResponse.value;
-        uvIndexEl.innerHTML = "UV Index: ";
-        uvValueDisplay.setAttribute("id", "uv-index");
-        uvValueDisplay.innerHTML = uvValue;
-        uvIndexContainer.appendChild(uvIndexEl);
-        uvIndexContainer.appendChild(uvValueDisplay);
-
-        if (uvResponse.value > 7) {
-            document.querySelector("#uv-index").classList = "uv-result rounded bg-danger";
-        } else if (uvResponse.value >= 2 && uvResponse.value <= 7) {
-            document.querySelector("#uv-index").classList = "uv-result rounded bg-warning";
-        } else if (uvResponse.value <= 2) {
-            document.querySelector("#uv-index").classList = "uv-result rounded bg-success";
+        let UVIndex = data.value;
+        let UVDiv = $("#UVIndex").attr("data-toggle", "tooltip");
+        let severity = "";
+        let UVbg = null;
+        let textColor = null;
+        let borderColor = null;
+        
+        // Determine severity of UV Index for color coding
+        if (UVIndex < 2){
+            UVbg = "green";
+            textColor = "white";
+            severity = "Low";
+            borderColor = "rgb(16, 129, 16)";
+        } else if (UVIndex < 6){
+            UVbg = "yellow";
+            severity = "Moderate";
+            borderColor = "rgb(245, 245, 56)";
+        } else if (UVIndex < 8){
+            UVbg = "orange";
+            severity = "High";
+            borderColor = "rgb(255, 184, 51)";
+        } else if (UVIndex < 11){
+            UVbg = "red";
+            textColor = "white";
+            severity = "Very high";
+            borderColor = "rgb(255, 54, 54)";
+        } else {
+            UVbg = "violet";
+            severity = "Extreme";
+            borderColor = "rgb(236, 151, 236)";
         }
-        return fetch("https://api.openweathermap.org/data/2.5/onecall?lat=" + uvResponse.lat + "&lon=" + uvResponse.lon + "&appid=e2f667cde55a60ea38271c0834d19b9e&units=imperial");
-    })
-
-    .then(function (forecastResponse) {
-        return forecastResponse.json();
-    })
-
-    .then(function (forecastResponse) {
-        // For loop to display 5 day forecast
-        for (var i = 1; i < 6; i++) {
-            var forecastEl = document.createElement("div");
-            forecastEl.classList = "forecast-card card-body rounded-lg border-dark bg-info text-light";
-            forecastContainer.appendChild(forecastEl);
-
-            // Display date 
-            var dateDiv = document.createElement("div");
-            dateDiv.classList = "secondary-text card-title";
-            var forecastDate = moment.utc(forecastResponse.daily[i].dt * 1000).format("dddd, MMM DD");
-            dateDiv.innerHTML = "<h5 class='font-weight-bold'>" + forecastDate + "</h5>";
-            forecastEl.appendChild(dateDiv);
-
-            // Weather icon
-            var iconDiv = document.createElement("div");
-            iconDiv.innerHTML = "<img src='http://openweathermap.org/img/w/" + forecastResponse.daily[i].weather[0].icon + ".png' class='forecast-icon' alt=Current weather icon/>";
-            forecastEl.appendChild(iconDiv);
-
-            // Display day temperature forecast
-            var tempDiv = document.createElement("div");
-            tempDiv.classList = "card-text secondary-text";
-            tempDiv.innerHTML = "<h6>Day Temp:<span>" + " " + Math.round(forecastResponse.daily[i].temp.day) + "&#176F</span></h6>" + "<h6>Night Temp:<span>" + " " + Math.round(forecastResponse.daily[i].temp.night) + " &#176F</span></h6>";
-            forecastEl.appendChild(tempDiv);
-
-            // Display humidity forecast
-            var humidDiv = document.createElement("div");
-            humidDiv.classList = "card-text secondary-text";
-            humidDiv.innerHTML = "<h6>Humidity:<span>" + " " + forecastResponse.daily[i].humidity + "%</span></h6>";
-            forecastEl.appendChild(humidDiv);
+        UVDiv.attr("title", severity)
+             .attr("data-placement", "right")  
+             .tooltip()
+             .css("backgroundColor", UVbg)
+             .css("borderColor", borderColor);
+        
+        if(textColor != null){
+            UVDiv.css("color",textColor);
         }
-    })
+        UVDiv.text(UVIndex);
+        } else {
+            alert("There was an error fetching UV data. Please try again.");
+        }
+    }
+
+// For loop to display 5 day forecast
+function buildForecastWeather(data){
+    if (data != null){
+        
+        forecastDiv.empty();
+        
+        let dayCardContainer = $("<div>").attr("id","dayCardContainer").addClass("row")
+
+        forecastDiv.append($("<h3>").text("5-Day Forecast:"),dayCardContainer);        
+        dailyData = parseDailyData(data);        
+
+        dailyData.forEach(element => {
+            dayCardContainer.append(buildForecastCard(element));
+        });
+        
+    } else {
+        alert("There was an error fetching forecast data. Please try again.");
+    }
+}
+
+
     
     .catch(function (error) {
         removePrevious();
