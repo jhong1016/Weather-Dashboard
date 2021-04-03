@@ -87,12 +87,12 @@ input {
 .btnCitySearch {
     width: 100%;
     display: block;
-    font-size: 1.1em;
-    border: 1px solid #918d8d;
+    font-size: medium;
+    border: 1px solid #d1cece;
     border-radius: 0;
     text-align: left;
-    background-color: rgb(214, 232, 240);
-    color: rgb(55, 77, 110)
+    background-color: rgb(232, 239, 243);
+    color: rgb(105, 121, 143)
 }
 
 #searchInput {
