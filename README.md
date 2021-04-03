@@ -2,17 +2,17 @@
 
 **Description**
 
-This is a small web app that uses the OpenWeather API to perform simple weather condition searches for cities showing the current conditions as well as the 5 day forcast.
+This is a web application that uses OpenWeatherMap's API to perform simple weather condition searches for cities showing the current conditions as well as the 5 day forcast.
 
 HTML and CSS used to structure and style the page. Additional resources used: Jquery, moment.js, Bootstrap, Popper.js and FontAwesome.
 
 **User Guide**
 
-Use the input field to search for a city. Searching causes that cities weather information to be filled as well as create an entry in the search history that can be used to quickly recall previous searches.
+When the user types in a city name in the input field, then hits enter or clicks the input search button, the searched city's current weather is fetched. 
 
-The results show the current weather conditions for the city including a color coded UV Index based on the UV severity scale.
-
-5 Day forcast is also shown for the searched city.
+* It specifically grabs the temperature, humidity, wind speed, and UV index. 
+* It gives you a 5 day forecast for the searched city. 
+* It saves the previous city searches and when clicked on, weather results are retrieved.
 
 There is also a button to clear the search history.
 
