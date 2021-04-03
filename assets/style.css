@@ -30,9 +30,22 @@ h1,h2,h3,h4 {
     font: bold;
 }
 
+h2 {
+    font-size: x-large;
+}
+
 h3 {
+    font-size: x-large;
+    color:rgb(10, 2, 56);
+}
+
+h4 {
     font-size: medium;
-    color:rgb(55, 77, 110)
+    margin-bottom: 5px;
+}
+
+.wrapper {
+    align-items: stretch;
 }
 
 /* City search panel */
