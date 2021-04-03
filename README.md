@@ -18,6 +18,6 @@ There is also a button to clear the search history.
 
 **Screenshot**
 
-![Screenshot]()
+![Screenshot](https://github.com/jhong1016/Weather-Dashboard/blob/main/assets/screenshot.png)
 
 **Link to Deployed Application**
