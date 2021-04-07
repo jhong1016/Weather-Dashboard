@@ -22,4 +22,4 @@ There is also a button to clear the search history.
 
 **Link to Deployed Application**
 
-https://github.com/jhong1016/Weather-Dashboard.git
+https://jhong1016.github.io/Weather-Dashboard/
